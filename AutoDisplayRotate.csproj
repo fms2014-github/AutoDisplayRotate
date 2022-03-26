@@ -10,6 +10,11 @@
   <ItemGroup>
     <Folder Include="MVVM\Model\" />
 	<Folder Include="MVVM\View\" />
+	<Folder Include="MVVM\ViewModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
