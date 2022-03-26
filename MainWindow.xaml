@@ -5,17 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoDisplayRotate"
         mc:Ignorable="d"
-        Title="MainWindow" Height="380" Width="480" ResizeMode="NoResize">
+        Title="DisplayAutoRotate" Height="380" Width="480" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="269*"/>
             <RowDefinition Height="95*"/>
         </Grid.RowDefinitions>
-        <Button Name="btn_scan" Content="장치스캔" Width="80" HorizontalAlignment="Left" Margin="14,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Button Width="80" Content="보정" HorizontalAlignment="Center" Margin="0,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Button Width="80" Content="연결확인" Margin="386,25,14,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <CheckBox Content="윈도우 시작 시 자동 실행" HorizontalAlignment="Left" Margin="332,62,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="10"/>
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}">
+        <Button Name="btn_scan" Content="장치스캔" Width="80" HorizontalAlignment="Left" Margin="14,25,0,0" Grid.Row="1" VerticalAlignment="Top" Click="btn_scan_Click"/>
+        <Button Name="btn_connectCheck" Content="연결확인" Margin="0,25,14,0" Grid.Row="1" VerticalAlignment="Top" Click="btn_connectCheck_Click" HorizontalAlignment="Right" Width="80"/>
+        <CheckBox Name="chk_autoStart" Content="윈도우 시작 시 자동 실행" Margin="0,65,14,0" Grid.Row="1" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Right" Width="134"/>
+        <ListView d:ItemsSource="{d:SampleData ItemCount=4}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="150" Header="DeviceName"/>
@@ -23,13 +22,12 @@
                     <GridViewColumn Width="150" Header="DisplayNum">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox Width="138"/>
+                                <ComboBox  Width="138"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-
     </Grid>
 </Window>

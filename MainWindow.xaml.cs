@@ -24,5 +24,20 @@ namespace AutoDisplayRotate
         {
             InitializeComponent();
         }
+
+        private void btn_scan_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("장치 검색");
+        }
+
+        private void btn_correction_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("...");
+        }
+
+        private void btn_connectCheck_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("연결 확인");
+        }
     }
 }
