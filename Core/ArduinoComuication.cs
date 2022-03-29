@@ -8,6 +8,7 @@ using System.IO.Ports;
  * 
  * 코드 참고 1 : https://unininu.tistory.com/304
  * 코드 참고 2 : https://diy-dev-design.tistory.com/129
+ * 코드 참고 3 : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.ports.serialport.datareceived?view=dotnet-plat-ext-6.0
  * 
  */
 
@@ -16,13 +17,13 @@ namespace AutoDisplayRotate.Core
     internal class ArduinoComuication
     {
         private SerialPort serialPort { get; }
-
+        
         public ArduinoComuication()
         {
             serialPort = new SerialPort();
         }
    
-        public string[] connectableDeviceList()
+        public static string[] connectableDeviceList()
         {
             return SerialPort.GetPortNames();
         }
@@ -61,6 +62,13 @@ namespace AutoDisplayRotate.Core
             serialPort.DataReceived += e;
 
             serialPort.Open();  //시리얼포트 열기
+        }
+
+        public void connectCheck()
+        {
+            byte[] data = new byte[4];
+            data = Encoding.UTF8.GetBytes("abc\n");
+            serialPort.Write(data, 0, data.Length);
         }
     }
 }
