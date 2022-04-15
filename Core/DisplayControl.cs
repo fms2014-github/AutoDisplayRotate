@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 /*
  * 
@@ -22,19 +23,26 @@ namespace AutoDisplayRotate.Core
         public static bool Rotate(uint DisplayNumber, Orientations Orientation)
         {
             if (DisplayNumber == 0)
+            {
                 throw new ArgumentOutOfRangeException("DisplayNumber", DisplayNumber, "First display is 1.");
+            }
 
             bool result = false;
             DISPLAY_DEVICE d = new DISPLAY_DEVICE();
             DEVMODE dm = new DEVMODE();
             d.cb = Marshal.SizeOf(d);
+            Screen[] s = Screen.AllScreens;
 
             if (!NativeMethods.EnumDisplayDevices(null, DisplayNumber - 1, ref d, 0))
-                throw new ArgumentOutOfRangeException("DisplayNumber", DisplayNumber, "Number is greater than connected displays.");
-
-            if (0 != NativeMethods.EnumDisplaySettings(
-                d.DeviceName, NativeMethods.ENUM_CURRENT_SETTINGS, ref dm))
             {
+                throw new ArgumentOutOfRangeException("DisplayNumber", DisplayNumber, "Number is greater than connected displays.");
+            }
+            Console.WriteLine("DeviceName : " + s[1].DeviceName);
+            Console.WriteLine("DeviceKey : " + d.DeviceKey);
+            Console.WriteLine();
+            if (0 != NativeMethods.EnumDisplaySettings(d.DeviceName, NativeMethods.ENUM_CURRENT_SETTINGS, ref dm))
+            {
+                Console.WriteLine("dmFormName : " + dm.dmFormName);
                 if ((dm.dmDisplayOrientation + (int)Orientation) % 2 == 1) // Need to swap height and width?
                 {
                     int temp = dm.dmPelsHeight;
@@ -60,11 +68,9 @@ namespace AutoDisplayRotate.Core
                         break;
                 }
 
-                DISP_CHANGE ret = NativeMethods.ChangeDisplaySettingsEx(
-                    d.DeviceName, ref dm, IntPtr.Zero,
-                    DisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
+                //DISP_CHANGE ret = NativeMethods.ChangeDisplaySettingsEx(d.DeviceName, ref dm, IntPtr.Zero, DisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
 
-                result = ret == 0;
+                //result = ret == 0;
             }
 
             return result;
@@ -83,6 +89,7 @@ namespace AutoDisplayRotate.Core
             catch (ArgumentOutOfRangeException ex)
             {
                 // Everything is fine, just reached the last display
+                Console.WriteLine(ex.Message);
             }
         }
     }
@@ -90,18 +97,13 @@ namespace AutoDisplayRotate.Core
     internal class NativeMethods
     {
         [DllImport("user32.dll")]
-        internal static extern DISP_CHANGE ChangeDisplaySettingsEx(
-            string lpszDeviceName, ref DEVMODE lpDevMode, IntPtr hwnd,
-            DisplaySettingsFlags dwflags, IntPtr lParam);
+        internal static extern DISP_CHANGE ChangeDisplaySettingsEx(string lpszDeviceName, ref DEVMODE lpDevMode, IntPtr hwnd, DisplaySettingsFlags dwflags, IntPtr lParam);
 
         [DllImport("user32.dll")]
-        internal static extern bool EnumDisplayDevices(
-            string lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice,
-            uint dwFlags);
+        internal static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
 
         [DllImport("user32.dll", CharSet = CharSet.Ansi)]
-        internal static extern int EnumDisplaySettings(
-            string lpszDeviceName, int iModeNum, ref DEVMODE lpDevMode);
+        internal static extern int EnumDisplaySettings(string lpszDeviceName, int iModeNum, ref DEVMODE lpDevMode);
 
         public const int DMDO_DEFAULT = 0;
         public const int DMDO_90 = 1;

@@ -16,7 +16,8 @@ namespace AutoDisplayRotate.Core
 {
     internal class ArduinoComuication
     {
-        private SerialPort serialPort { get; }
+        private SerialPort serialPort;
+        public SerialPort SerialPort { get { return serialPort; } }
         
         public ArduinoComuication()
         {
@@ -40,7 +41,7 @@ namespace AutoDisplayRotate.Core
             serialPort.Open();  //시리얼포트 열기
         }
 
-        public void deviceConnect(string portName, int baudRate, SerialDataReceivedEventHandler e)
+/*        public void deviceConnect(string portName, int baudRate, SerialDataReceivedEventHandler e)
         {
             serialPort.PortName = portName;
             serialPort.BaudRate = baudRate;
@@ -62,7 +63,7 @@ namespace AutoDisplayRotate.Core
             serialPort.DataReceived += e;
 
             serialPort.Open();  //시리얼포트 열기
-        }
+        }*/
 
         public void connectCheck()
         {
