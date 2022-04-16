@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace AutoDisplayRotate.MVVM.Model
 {
-    internal class DeviceList
+    public class DeviceList
     {
-        private string? displayList { set; get;}
-        private string[]? gyroList { set; get;}
-        private bool? connectState { set; get;}
+        public string displayList { set; get;}
+        public string[] gyroList { set; get;}
+        public bool connectState { set; get;}
 
         public DeviceList(string displayList, string[] gyroList, bool connectState)
         {

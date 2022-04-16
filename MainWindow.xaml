@@ -15,15 +15,15 @@
         <Button Name="btn_scan" Content="장치스캔" Width="80" HorizontalAlignment="Left" Margin="14,25,0,0" Grid.Row="1" VerticalAlignment="Top" Click="btn_scan_Click"/>
         <Button Name="btn_connectCheck" Content="연결확인" Margin="0,25,14,0" Grid.Row="1" VerticalAlignment="Top" Click="btn_connectCheck_Click" HorizontalAlignment="Right" Width="80"/>
         <CheckBox Name="chk_autoStart" Content="윈도우 시작 시 자동 실행" Margin="0,65,14,0" Grid.Row="1" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Right" Width="134"/>
-        <ListView d:ItemsSource="{d:SampleData ItemCount=4}">
+        <ListView d:ItemsSource="{d:SampleData ItemCount=4}" ItemsSource="{Binding Device}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="150" Header="모니터 이름"/>
-                    <GridViewColumn Width="150" Header="연결 상태"/>
+                    <GridViewColumn Width="150" Header="모니터 이름" DisplayMemberBinding="{Binding displayList}"/>
+                    <GridViewColumn Width="150" Header="연결 상태" DisplayMemberBinding="{Binding connectState}"/>
                     <GridViewColumn Width="150" Header="자이로스코프">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox  Width="138"/>
+                                <ComboBox  Width="138" ItemsSource="{Binding gyroList}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

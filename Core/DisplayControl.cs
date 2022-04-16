@@ -19,7 +19,7 @@ namespace AutoDisplayRotate.Core
             DEGREES_CW_270 = 1
         }
 
-        public static bool Rotate(uint DisplayNumber, Orientations Orientation)
+        public bool Rotate(uint DisplayNumber, Orientations Orientation)
         {
             if (DisplayNumber == 0)
             {
@@ -71,7 +71,7 @@ namespace AutoDisplayRotate.Core
             return result;
         }
 
-        public static void ResetAllRotations()
+        public void ResetAllRotations()
         {
             try
             {
@@ -88,11 +88,11 @@ namespace AutoDisplayRotate.Core
             }
         }
 
-        public static string[] displayList()
+        public string[] displayList()
         {
             Screen[] screens = Screen.AllScreens;
 
-            if(screens == null)
+            if (screens == null)
             {
                 return null;
             }
@@ -101,16 +101,21 @@ namespace AutoDisplayRotate.Core
 
             string[] result = new string[screensCount];
 
-            for(int i = 0;i < screensCount; i++)
+            for (int i = 0; i < screensCount; i++)
             {
                 result[i] = ConnectedDisplayList.GetFriendlyDeviceName(screens[i]);
             }
 
             return result;
+        }
     }
 
     internal class NativeMethods
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllocConsole();
+
         [DllImport("user32.dll")]
         internal static extern DISP_CHANGE ChangeDisplaySettingsEx(string lpszDeviceName, ref DEVMODE lpDevMode, IntPtr hwnd, DisplaySettingsFlags dwflags, IntPtr lParam);
 

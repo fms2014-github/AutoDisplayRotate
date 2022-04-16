@@ -37,7 +37,8 @@ namespace AutoDisplayRotate
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
+
+            DataContext = new MainWindowViewModel();
             NativeMethods.AllocConsole();
             arduinoComunication = new ArduinoComuication();
         }
