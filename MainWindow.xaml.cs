@@ -1,4 +1,5 @@
 ﻿using AutoDisplayRotate.Core;
+using AutoDisplayRotate.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -32,9 +33,11 @@ namespace AutoDisplayRotate
     public partial class MainWindow : Window
     {
         ArduinoComuication arduinoComunication;
+        
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
             NativeMethods.AllocConsole();
             arduinoComunication = new ArduinoComuication();
         }
@@ -51,9 +54,9 @@ namespace AutoDisplayRotate
 
         private void btn_connectCheck_Click(object sender, RoutedEventArgs e)
         {
-            //arduinoComunication.deviceConnect("COM4", serialPort_DataReceived);
-            //arduinoComunication.connectCheck();
-            MessageBox.Show(DisplayControl.Rotate(2, DisplayControl.Orientations.DEGREES_CW_90).ToString());
+            arduinoComunication.deviceConnect("COM4", serialPort_DataReceived);
+            arduinoComunication.connectCheck();
+            //MessageBox.Show(DisplayControl.Rotate(2, DisplayControl.Orientations.DEGREES_CW_90).ToString());
             //MessageBox.Show("연결 확인");
         }
 
@@ -67,7 +70,7 @@ namespace AutoDisplayRotate
 
         private void changeStatus(string state)
         {
-            
+            Console.WriteLine(state);
         }
 
         static class NativeMethods

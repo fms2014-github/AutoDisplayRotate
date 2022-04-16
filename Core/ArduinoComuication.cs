@@ -24,7 +24,7 @@ namespace AutoDisplayRotate.Core
             serialPort = new SerialPort();
         }
    
-        public static string[] connectableDeviceList()
+        public static string[] connectableGyroList()
         {
             return SerialPort.GetPortNames();
         }
@@ -41,34 +41,10 @@ namespace AutoDisplayRotate.Core
             serialPort.Open();  //시리얼포트 열기
         }
 
-/*        public void deviceConnect(string portName, int baudRate, SerialDataReceivedEventHandler e)
-        {
-            serialPort.PortName = portName;
-            serialPort.BaudRate = baudRate;
-            serialPort.DataBits = 8;
-            serialPort.StopBits = StopBits.One;
-            serialPort.Parity = Parity.None;
-            serialPort.DataReceived += e;
-
-            serialPort.Open();  //시리얼포트 열기
-        }
-
-        public void deviceConnect(string portName, int baudRate, int dataBits, SerialDataReceivedEventHandler e)
-        {
-            serialPort.PortName = portName;
-            serialPort.BaudRate = baudRate;
-            serialPort.DataBits = dataBits;
-            serialPort.StopBits = StopBits.One;
-            serialPort.Parity = Parity.None;
-            serialPort.DataReceived += e;
-
-            serialPort.Open();  //시리얼포트 열기
-        }*/
-
         public void connectCheck()
         {
-            byte[] data = new byte[4];
-            data = Encoding.UTF8.GetBytes("abc\n");
+            byte[] data = new byte[1];
+            data[0] = 0b0100000;
             serialPort.Write(data, 0, data.Length);
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-
 /*
  * 
  * 코드 출처 : https://stackoverflow.com/questions/39288135/rotating-the-display-programmatically
@@ -24,25 +23,21 @@ namespace AutoDisplayRotate.Core
         {
             if (DisplayNumber == 0)
             {
-                throw new ArgumentOutOfRangeException("DisplayNumber", DisplayNumber, "First display is 1.");
+                throw new ArgumentOutOfRangeException("DisplayNumber", DisplayNumber, "모니터 인덱스는 1부터 시작합니다.");
             }
 
             bool result = false;
             DISPLAY_DEVICE d = new DISPLAY_DEVICE();
             DEVMODE dm = new DEVMODE();
             d.cb = Marshal.SizeOf(d);
-            Screen[] s = Screen.AllScreens;
 
             if (!NativeMethods.EnumDisplayDevices(null, DisplayNumber - 1, ref d, 0))
             {
-                throw new ArgumentOutOfRangeException("DisplayNumber", DisplayNumber, "Number is greater than connected displays.");
+                throw new ArgumentOutOfRangeException("DisplayNumber", DisplayNumber, "연결된 모니터 수 보다 입력한 모니터 인덱스가 큽니다.");
             }
-            Console.WriteLine("DeviceName : " + s[1].DeviceName);
-            Console.WriteLine("DeviceKey : " + d.DeviceKey);
-            Console.WriteLine();
+
             if (0 != NativeMethods.EnumDisplaySettings(d.DeviceName, NativeMethods.ENUM_CURRENT_SETTINGS, ref dm))
             {
-                Console.WriteLine("dmFormName : " + dm.dmFormName);
                 if ((dm.dmDisplayOrientation + (int)Orientation) % 2 == 1) // Need to swap height and width?
                 {
                     int temp = dm.dmPelsHeight;
@@ -68,9 +63,9 @@ namespace AutoDisplayRotate.Core
                         break;
                 }
 
-                //DISP_CHANGE ret = NativeMethods.ChangeDisplaySettingsEx(d.DeviceName, ref dm, IntPtr.Zero, DisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
+                DISP_CHANGE ret = NativeMethods.ChangeDisplaySettingsEx(d.DeviceName, ref dm, IntPtr.Zero, DisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
 
-                //result = ret == 0;
+                result = ret == 0;
             }
 
             return result;
@@ -92,6 +87,26 @@ namespace AutoDisplayRotate.Core
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public static string[] displayList()
+        {
+            Screen[] screens = Screen.AllScreens;
+
+            if(screens == null)
+            {
+                return null;
+            }
+            int screensCount = screens.Length;
+
+
+            string[] result = new string[screensCount];
+
+            for(int i = 0;i < screensCount; i++)
+            {
+                result[i] = ConnectedDisplayList.GetFriendlyDeviceName(screens[i]);
+            }
+
+            return result;
     }
 
     internal class NativeMethods

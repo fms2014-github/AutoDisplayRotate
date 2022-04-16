@@ -3,13 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AutoDisplayRotate"
         xmlns:vm="clr-namespace:AutoDisplayRotate.MVVM.ViewModel"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Title="DisplayAutoRotate" Height="380" Width="480" ResizeMode="NoResize">
-    <Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="269*"/>
@@ -21,9 +18,9 @@
         <ListView d:ItemsSource="{d:SampleData ItemCount=4}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="150" Header="DeviceName"/>
-                    <GridViewColumn Width="150" Header="state"/>
-                    <GridViewColumn Width="150" Header="DisplayNum">
+                    <GridViewColumn Width="150" Header="모니터 이름"/>
+                    <GridViewColumn Width="150" Header="연결 상태"/>
+                    <GridViewColumn Width="150" Header="자이로스코프">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox  Width="138"/>

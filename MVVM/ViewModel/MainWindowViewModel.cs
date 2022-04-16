@@ -1,47 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 using AutoDisplayRotate.Core;
+using AutoDisplayRotate.MVVM.Model;
 
 namespace AutoDisplayRotate.MVVM.ViewModel
 {
     internal class MainWindowViewModel : Notifier
     {
-        private string[] deviceList;
-
+        private List<DeviceList> deviceList = new List<DeviceList>();
+        private string[] gyroList;
+        private string[] displayList;
+        
         public string[] DeviceList
         {
-            get { return deviceList; }
+            get { return DeviceList; }
             set { 
-                deviceList = value;
+                gyroList = value;
                 OnPropertyChanged("DeviceList");
             }
         }
 
-        private List<ArduinoComuication> devices;
+        private List<ArduinoComuication> gyro;
 
 
         public MainWindowViewModel()
         {
-            deviceList = ArduinoComuication.connectableDeviceList();
-            devices = new List<ArduinoComuication>();
+            gyroList = ArduinoComuication.connectableGyroList();
+            displayList = DisplayControl.displayList();
+            gyro = new List<ArduinoComuication>();
+
+            deviceList = new List<DeviceList>();
+
+            for(int i = 0; i < displayList.Length; i++)
+            {
+                deviceList.Add(new DeviceList(displayList[i], gyroList, false));
+            }
         }
 
         public void searchConnectableDeviceList()
         {
-            deviceList = ArduinoComuication.connectableDeviceList();
+            gyroList = ArduinoComuication.connectableGyroList();
         }
 
         public void connectDevice(string portName, SerialDataReceivedEventHandler h)
         {
-            ArduinoComuication device = new ArduinoComuication();
+            ArduinoComuication arduino = new ArduinoComuication();
 
-            device.deviceConnect(portName, h);
+            arduino.deviceConnect(portName, h);
 
-            devices.Add(device);
+            gyro.Add(arduino);
+        }
+
+        public List<string> getDisplayList()
+        {
+            List<string> list = new List<string>();
+
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                list.Add(ConnectedDisplayList.GetFriendlyDeviceName(screen));
+            }
+
+            return list;
         }
 
 

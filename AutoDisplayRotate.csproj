@@ -8,14 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="MVVM\Model\" />
 	<Folder Include="MVVM\View\" />
 	<Folder Include="MVVM\ViewModel\" />
+	 <Folder Include="MVVM\Model\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="6.0.0" />
-	<FrameworkReference Include="Microsoft.WindowsDesktop.App"/>
+	<FrameworkReference Include="Microsoft.WindowsDesktop.App" />
   </ItemGroup>
 
 </Project>
