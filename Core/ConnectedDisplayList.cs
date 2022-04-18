@@ -46,8 +46,6 @@ namespace AutoDisplayRotate.Core
         }
 
         #endregion
-
-
         #region 디스플레이 구성 / 비디오 출력 기술 - DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY
 
         /// <summary>
@@ -147,8 +145,162 @@ namespace AutoDisplayRotate.Core
         }
 
         #endregion
+        #region 디스플레이 구성 / 스캔 라인 순서 - DISPLAYCONFIG_SCANLINE_ORDERING
 
+        /// <summary>
+        /// 디스플레이 구성 / 스캔 라인 순서
+        /// </summary>
+        public enum DISPLAYCONFIG_SCANLINE_ORDERING : uint
+        {
+            /// <summary>
+            /// DISPLAYCONFIG_SCANLINE_ORDERING_UNSPECIFIED
+            /// </summary>
+            DISPLAYCONFIG_SCANLINE_ORDERING_UNSPECIFIED = 0,
 
+            /// <summary>
+            /// DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE
+            /// </summary>
+            DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE = 1,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED
+            /// </summary>
+            DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED = 2,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED_UPPERFIELDFIRST
+            /// </summary>
+            DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED_UPPERFIELDFIRST = DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED_LOWERFIELDFIRST
+            /// </summary>
+            DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED_LOWERFIELDFIRST = 3,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCANLINE_ORDERING_FORCE_UINT32
+            /// </summary>
+            DISPLAYCONFIG_SCANLINE_ORDERING_FORCE_UINT32 = 0xFFFFFFFF
+        }
+
+        #endregion
+        #region 디스플레이 구성 / 회전 - DISPLAYCONFIG_ROTATION
+
+        /// <summary>
+        /// 디스플레이 구성 / 회전
+        /// </summary>
+        public enum DISPLAYCONFIG_ROTATION : uint
+        {
+            /// <summary>
+            /// DISPLAYCONFIG_ROTATION_IDENTITY
+            /// </summary>
+            DISPLAYCONFIG_ROTATION_IDENTITY = 1,
+
+            /// <summary>
+            /// DISPLAYCONFIG_ROTATION_ROTATE90
+            /// </summary>
+            DISPLAYCONFIG_ROTATION_ROTATE90 = 2,
+
+            /// <summary>
+            /// DISPLAYCONFIG_ROTATION_ROTATE180
+            /// </summary>
+            DISPLAYCONFIG_ROTATION_ROTATE180 = 3,
+
+            /// <summary>
+            /// DISPLAYCONFIG_ROTATION_ROTATE270
+            /// </summary>
+            DISPLAYCONFIG_ROTATION_ROTATE270 = 4,
+
+            /// <summary>
+            /// DISPLAYCONFIG_ROTATION_FORCE_UINT32
+            /// </summary>
+            DISPLAYCONFIG_ROTATION_FORCE_UINT32 = 0xFFFFFFFF
+        }
+
+        #endregion
+        #region 디스플레이 구성 / 축적 - DISPLAYCONFIG_SCALING
+
+        /// <summary>
+        /// 디스플레이 구성 / 축적
+        /// </summary>
+        public enum DISPLAYCONFIG_SCALING : uint
+        {
+            /// <summary>
+            /// DISPLAYCONFIG_SCALING_IDENTITY
+            /// </summary>
+            DISPLAYCONFIG_SCALING_IDENTITY = 1,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCALING_CENTERED
+            /// </summary>
+            DISPLAYCONFIG_SCALING_CENTERED = 2,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCALING_STRETCHED
+            /// </summary>
+            DISPLAYCONFIG_SCALING_STRETCHED = 3,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCALING_ASPECTRATIOCENTEREDMAX
+            /// </summary>
+            DISPLAYCONFIG_SCALING_ASPECTRATIOCENTEREDMAX = 4,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCALING_CUSTOM
+            /// </summary>
+            DISPLAYCONFIG_SCALING_CUSTOM = 5,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCALING_PREFERRED
+            /// </summary>
+            DISPLAYCONFIG_SCALING_PREFERRED = 128,
+
+            /// <summary>
+            /// DISPLAYCONFIG_SCALING_FORCE_UINT32
+            /// </summary>
+            DISPLAYCONFIG_SCALING_FORCE_UINT32 = 0xFFFFFFFF
+        }
+
+        #endregion
+        #region 디스플레이 구성 / 픽셀 포맷 - DISPLAYCONFIG_PIXELFORMAT
+
+        /// <summary>
+        /// 디스플레이 구성 / 픽셀 포맷
+        /// </summary>
+        public enum DISPLAYCONFIG_PIXELFORMAT : uint
+        {
+            /// <summary>
+            /// DISPLAYCONFIG_PIXELFORMAT_8BPP
+            /// </summary>
+            DISPLAYCONFIG_PIXELFORMAT_8BPP = 1,
+
+            /// <summary>
+            /// DISPLAYCONFIG_PIXELFORMAT_16BPP
+            /// </summary>
+            DISPLAYCONFIG_PIXELFORMAT_16BPP = 2,
+
+            /// <summary>
+            /// DISPLAYCONFIG_PIXELFORMAT_24BPP
+            /// </summary>
+            DISPLAYCONFIG_PIXELFORMAT_24BPP = 3,
+
+            /// <summary>
+            /// DISPLAYCONFIG_PIXELFORMAT_32BPP
+            /// </summary>
+            DISPLAYCONFIG_PIXELFORMAT_32BPP = 4,
+
+            /// <summary>
+            /// DISPLAYCONFIG_PIXELFORMAT_NONGDI
+            /// </summary>
+            DISPLAYCONFIG_PIXELFORMAT_NONGDI = 5,
+
+            /// <summary>
+            /// DISPLAYCONFIG_PIXELFORMAT_FORCE_UINT32
+            /// </summary>
+            DISPLAYCONFIG_PIXELFORMAT_FORCE_UINT32 = 0xffffffff
+        }
+
+        #endregion
         #region 디스플레이 구성 / 모드 정보 타입 - DISPLAYCONFIG_MODE_INFO_TYPE
 
         /// <summary>
@@ -173,8 +325,6 @@ namespace AutoDisplayRotate.Core
         }
 
         #endregion
-
-
         #region 디스플레이 구성 / 장치 정보 타입 - DISPLAYCONFIG_DEVICE_INFO_TYPE
 
         /// <summary>
@@ -250,7 +400,33 @@ namespace AutoDisplayRotate.Core
         }
 
         #endregion
+        #region 포인트 - POINT
 
+        /// <summary>
+        /// 포인트
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            //////////////////////////////////////////////////////////////////////////////////////////////////// Field
+            ////////////////////////////////////////////////////////////////////////////////////////// Public
+
+            #region Field
+
+            /// <summary>
+            /// X
+            /// </summary>
+            public int X;
+
+            /// <summary>
+            /// X
+            /// </summary>
+            public int Y;
+
+            #endregion
+        }
+
+        #endregion
         #region 디스플레이 구성 / 경로 소스 정보 - DISPLAYCONFIG_PATH_SOURCE_INFO
 
         /// <summary>
@@ -324,12 +500,12 @@ namespace AutoDisplayRotate.Core
             /// <summary>
             /// 회전
             /// </summary>
-            //private DISPLAYCONFIG_ROTATION Rotation;
+            private DISPLAYCONFIG_ROTATION Rotation;
 
             /// <summary>
             /// 축적
             /// </summary>
-            //private DISPLAYCONFIG_SCALING Scaling;
+            private DISPLAYCONFIG_SCALING Scaling;
 
             /// <summary>
             /// 리프레쉬 비율
@@ -339,7 +515,7 @@ namespace AutoDisplayRotate.Core
             /// <summary>
             /// 스캔 라인 순서
             /// </summary>
-            //private DISPLAYCONFIG_SCANLINE_ORDERING ScanLineOrdering;
+            private DISPLAYCONFIG_SCANLINE_ORDERING ScanLineOrdering;
 
             /// <summary>
             /// 타겟 이용 가능 여부
@@ -487,7 +663,7 @@ namespace AutoDisplayRotate.Core
             /// <summary>
             /// 스캔 라인 순서
             /// </summary>
-            //public DISPLAYCONFIG_SCANLINE_ORDERING ScanLineOrdering;
+            public DISPLAYCONFIG_SCANLINE_ORDERING ScanLineOrdering;
 
             #endregion
         }
@@ -515,7 +691,43 @@ namespace AutoDisplayRotate.Core
         }
 
         #endregion
+        #region 디스플레이 구성 / 소스 모드 - DISPLAYCONFIG_SOURCE_MODE
 
+        /// <summary>
+        /// 디스플레이 구성 / 소스 모드
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DISPLAYCONFIG_SOURCE_MODE
+        {
+            //////////////////////////////////////////////////////////////////////////////////////////////////// Field
+            ////////////////////////////////////////////////////////////////////////////////////////// Public
+
+            #region Field
+
+            /// <summary>
+            /// 너비
+            /// </summary>
+            public uint Width;
+
+            /// <summary>
+            /// 높이
+            /// </summary>
+            public uint Height;
+
+            /// <summary>
+            /// 픽셀 포맷
+            /// </summary>
+            public DISPLAYCONFIG_PIXELFORMAT PixelFormat;
+
+            /// <summary>
+            /// 위치
+            /// </summary>
+            public POINT Position;
+
+            #endregion
+        }
+
+        #endregion
         #region 디스플레이 구성 / 모드 정보 통합 - DISPLAYCONFIG_MODE_INFO_UNION
 
         /// <summary>
@@ -538,15 +750,13 @@ namespace AutoDisplayRotate.Core
             /// <summary>
             /// 소스 모드
             /// </summary>
-            //[FieldOffset(0)]
-            //public DISPLAYCONFIG_SOURCE_MODE SourceMode;
+            [FieldOffset(0)]
+            public DISPLAYCONFIG_SOURCE_MODE SourceMode;
 
             #endregion
         }
 
         #endregion
-
-
         #region 디스플레이 구성 / 모드 정보 - DISPLAYCONFIG_MODE_INFO
 
         /// <summary>
@@ -812,12 +1022,12 @@ namespace AutoDisplayRotate.Core
             DISPLAYCONFIG_TARGET_DEVICE_NAME deviceName = new DISPLAYCONFIG_TARGET_DEVICE_NAME
             {
                 Header =
-            {
-                Size      = (uint)Marshal.SizeOf(typeof (DISPLAYCONFIG_TARGET_DEVICE_NAME)),
-                AdapterID = adapterID,
-                ID        = targetID,
-                Type      = DISPLAYCONFIG_DEVICE_INFO_TYPE.DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME
-            }
+                {
+                    Size      = (uint)Marshal.SizeOf(typeof (DISPLAYCONFIG_TARGET_DEVICE_NAME)),
+                    AdapterID = adapterID,
+                    ID        = targetID,
+                    Type      = DISPLAYCONFIG_DEVICE_INFO_TYPE.DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME
+                }
             };
 
             int error = DisplayConfigGetDeviceInfo(ref deviceName);

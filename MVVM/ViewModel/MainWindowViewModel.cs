@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Threading;
+using System.Windows;
 using AutoDisplayRotate.Core;
 using AutoDisplayRotate.MVVM.Model;
 
@@ -8,10 +10,11 @@ namespace AutoDisplayRotate.MVVM.ViewModel
 {
     internal class MainWindowViewModel : Notifier
     {
-        private DisplayControl displayControl = new DisplayControl();
+        private static Mutex mutex = new Mutex();
+
         private List<DeviceList> device;
         //private string[]? gyroList;
-        private string[]? displayList;
+        private string[] displayList;
         
         public List<DeviceList> Device
         {
@@ -27,13 +30,17 @@ namespace AutoDisplayRotate.MVVM.ViewModel
 
         public MainWindowViewModel()
         {
-            displayList = displayControl.displayList();
+            string[] comList = ArduinoComuication.connectableGyroList();
+            displayList = DisplayControl.displayList();
             gyro = new List<ArduinoComuication>();
             device = new List<DeviceList>();
-           for (int i = 0; i < displayList.Length; i++)
+
+            for (int i = 0; i < displayList.Length; i++)
             {
-                device.Add(new DeviceList(displayList[i], ArduinoComuication.connectableGyroList(), false));
+                device.Add(new DeviceList(displayList[i], comList, false));
             }
+
+            
         }
 
 

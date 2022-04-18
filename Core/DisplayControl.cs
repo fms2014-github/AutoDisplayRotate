@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 /*
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 
 namespace AutoDisplayRotate.Core
 {
-    internal class DisplayControl
+    internal static class DisplayControl
     {
         public enum Orientations
         {
@@ -19,7 +20,7 @@ namespace AutoDisplayRotate.Core
             DEGREES_CW_270 = 1
         }
 
-        public bool Rotate(uint DisplayNumber, Orientations Orientation)
+        public static bool Rotate(uint DisplayNumber, Orientations Orientation)
         {
             if (DisplayNumber == 0)
             {
@@ -71,7 +72,7 @@ namespace AutoDisplayRotate.Core
             return result;
         }
 
-        public void ResetAllRotations()
+        public static void ResetAllRotations()
         {
             try
             {
@@ -88,21 +89,11 @@ namespace AutoDisplayRotate.Core
             }
         }
 
-        public string[] displayList()
+        public static string[] displayList()
         {
             Screen[] screens = Screen.AllScreens;
-
-            if (screens == null)
-            {
-                return null;
-            }
-            int screensCount = screens.Length;
-
-
-            string[] result = new string[screensCount];
-
-            for (int i = 0; i < screensCount; i++)
-            {
+            string[] result = new string[screens.Length];
+            for (int i = 0; i < screens.Length; i++) { 
                 result[i] = ConnectedDisplayList.GetFriendlyDeviceName(screens[i]);
             }
 

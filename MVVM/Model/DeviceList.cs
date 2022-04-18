@@ -8,7 +8,7 @@ namespace AutoDisplayRotate.MVVM.Model
 {
     public class DeviceList
     {
-        public string displayList { set; get;}
+        public string displayList { set; get; }
         public string[] gyroList { set; get;}
         public bool connectState { set; get;}
 

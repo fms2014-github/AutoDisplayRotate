@@ -1,4 +1,5 @@
 ﻿using AutoDisplayRotate.Core;
+using AutoDisplayRotate.MVVM.Model;
 using AutoDisplayRotate.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,6 @@ namespace AutoDisplayRotate
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = new MainWindowViewModel();
             NativeMethods.AllocConsole();
             arduinoComunication = new ArduinoComuication();
@@ -55,10 +55,46 @@ namespace AutoDisplayRotate
 
         private void btn_connectCheck_Click(object sender, RoutedEventArgs e)
         {
-            arduinoComunication.deviceConnect("COM4", serialPort_DataReceived);
-            arduinoComunication.connectCheck();
-            //MessageBox.Show(DisplayControl.Rotate(2, DisplayControl.Orientations.DEGREES_CW_90).ToString());
-            //MessageBox.Show("연결 확인");
+
+            //arduinoComunication.deviceConnect("COM4", serialPort_DataReceived);
+            //arduinoComunication.connectCheck();
+            //MessageBox.Show(DisplayControl.Rotate(2, DisplayControl.Orientations.DEGREES_CW_90).ToString());\
+            if(listView.SelectedItem != null)
+            {
+                ListViewItem lvi = (ListViewItem)listView.ItemContainerGenerator.ContainerFromItem(listView.Items.CurrentItem);
+                ContentPresenter contentPresenter = FindVisualChild<ContentPresenter>(lvi);
+
+                DataTemplate dataTemplate = contentPresenter.ContentTemplate;
+                ComboBox cbo = (ComboBox)dataTemplate.FindName("cbo_serialSelected", contentPresenter);
+
+
+                MessageBox.Show("listViewItem.displayList : " + ((DeviceList)listView.SelectedItem).displayList);
+
+                MessageBox.Show("listViewItem.gyroList : " + cbo.SelectedValue.ToString());
+                MessageBox.Show("listViewItem.connectState : " + ((DeviceList)listView.SelectedItem).connectState);
+
+            }
+
+        }
+
+        private childItem FindVisualChild<childItem>(DependencyObject obj)
+            where childItem : DependencyObject
+                {
+                    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                    {
+                        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                        if (child != null && child is childItem)
+                        {
+                            return (childItem)child;
+                        }
+                        else
+                        {
+                            childItem childOfChild = FindVisualChild<childItem>(child);
+                            if (childOfChild != null)
+                                return childOfChild;
+                        }
+                    }
+                    return null;
         }
 
         private delegate void DeviceConnectState(string state);
@@ -81,5 +117,9 @@ namespace AutoDisplayRotate
             public static extern bool AllocConsole();
         }
 
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //MessageBox.Show("item1 : " + sender.ToString());
+        }
     }
 }
