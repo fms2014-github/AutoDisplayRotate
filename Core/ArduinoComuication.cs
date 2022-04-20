@@ -44,7 +44,7 @@ namespace AutoDisplayRotate.Core
         public void connectCheck()
         {
             byte[] data = new byte[1];
-            data[0] = 0b0100000;
+            data[0] = 0b00100000;
             serialPort.Write(data, 0, data.Length);
         }
     }

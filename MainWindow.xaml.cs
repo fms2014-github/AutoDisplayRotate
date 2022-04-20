@@ -56,8 +56,6 @@ namespace AutoDisplayRotate
         private void btn_connectCheck_Click(object sender, RoutedEventArgs e)
         {
 
-            //arduinoComunication.deviceConnect("COM4", serialPort_DataReceived);
-            //arduinoComunication.connectCheck();
             //MessageBox.Show(DisplayControl.Rotate(2, DisplayControl.Orientations.DEGREES_CW_90).ToString());\
             if(listView.SelectedItem != null)
             {
@@ -67,11 +65,19 @@ namespace AutoDisplayRotate
                 DataTemplate dataTemplate = contentPresenter.ContentTemplate;
                 ComboBox cbo = (ComboBox)dataTemplate.FindName("cbo_serialSelected", contentPresenter);
 
+                string? s = (string)cbo.SelectedValue;
 
-                MessageBox.Show("listViewItem.displayList : " + ((DeviceList)listView.SelectedItem).displayList);
-
-                MessageBox.Show("listViewItem.gyroList : " + cbo.SelectedValue.ToString());
-                MessageBox.Show("listViewItem.connectState : " + ((DeviceList)listView.SelectedItem).connectState);
+                if (s != null)
+                {
+                    string serialPortName = s;
+                    //Console.WriteLine("123123" + serialPortName);
+                    arduinoComunication.deviceConnect(serialPortName, serialPort_DataReceived);
+                    arduinoComunication.connectCheck();
+                }
+                else
+                {
+                    MessageBox.Show("시리얼 포트를 선택해 주세요.");
+                }
 
             }
 
@@ -97,6 +103,37 @@ namespace AutoDisplayRotate
                     return null;
         }
 
+        /// <summary>
+        /// Recursively finds the specified named parent in a control hierarchy
+        /// </summary>
+        /// <typeparam name="T">The type of the targeted Find</typeparam>
+        /// <param name="child">The child control to start with</param>
+        /// <param name="parentName">The name of the parent to find</param>
+        /// <returns></returns>
+        private static T FindParent<T>(DependencyObject child)
+            where T : DependencyObject
+        {
+            if (child == null) return null;
+
+            T foundParent = null;
+            var currentParent = VisualTreeHelper.GetParent(child);
+
+            do
+            {
+                var frameworkElement = currentParent as FrameworkElement;
+                if (frameworkElement is T)
+                {
+                    foundParent = (T)currentParent;
+                    break;
+                }
+
+                currentParent = VisualTreeHelper.GetParent(currentParent);
+
+            } while (currentParent != null);
+
+            return foundParent;
+        }
+
         private delegate void DeviceConnectState(string state);
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -107,7 +144,19 @@ namespace AutoDisplayRotate
 
         private void changeStatus(string state)
         {
-            Console.WriteLine(state);
+            char[] stoc = state.ToCharArray();
+            Console.WriteLine(stoc);
+
+            if ((byte)(stoc[0]) == 0b00100001)
+            {
+                Console.WriteLine("OK");
+
+            }
+            else
+            {
+                Console.WriteLine("Fail");
+
+            }
         }
 
         static class NativeMethods
@@ -117,9 +166,10 @@ namespace AutoDisplayRotate
             public static extern bool AllocConsole();
         }
 
-        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void cbo_serialSelected_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //MessageBox.Show("item1 : " + sender.ToString());
+            FindParent<ListViewItem>(sender as ComboBox).IsSelected = true;
         }
+
     }
 }
